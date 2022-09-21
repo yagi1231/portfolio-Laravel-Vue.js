@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,46 +19,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+Route::prefix('reservations')->middleware('auth')->group(function(){
+    Route::get('/', [ ReservationController::class, 'index'])->name('reservation/index');
+    Route::get('/create', [ ReservationController::class, 'create'])->name('reservation/create');
+    Route::post('/store', [ ReservationController::class, 'store'])->name('reservation/store');
+    Route::get('/edit/{id}', [ ReservationController::class, 'edit'])->name('reservation/edit');
+    Route::get('/update/{id}', [ ReservationController::class, 'update'])->name('reservation/update');
+    Route::post('/update/{id}', [ ReservationController::class, 'update'])->name('reservation/update');
+    Route::get('/delete/{id}', [ ReservationController::class, 'destroy'])->name('reservation/delete');
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
