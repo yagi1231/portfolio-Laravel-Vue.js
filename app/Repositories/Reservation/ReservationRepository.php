@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Reservation;
 
 use App\Models\Reservation;
 use App\Repositories\Reservation\ReservationParams;
@@ -42,4 +42,16 @@ class ReservationRepository implements ReservationService
     // {
     //     $reservation->restore();
     // }
+
+
+    public function getCustomerInfomation($params)
+    {
+        $customerId = $params->id;
+        $customerName = $params->name;
+        $customerAddress = $params->address;
+        $customerTel = $params->tel;
+        $customerRemarks = $params->remarks;
+
+        return [ $customerId, $customerName, $customerAddress, $customerTel, $customerRemarks];
+    }
 }

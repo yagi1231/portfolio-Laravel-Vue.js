@@ -12,11 +12,6 @@ class Reservation extends Model
     
     protected $guarded = ['token'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     /**
      * 配達状況ステータス
      */
@@ -38,4 +33,14 @@ class Reservation extends Model
         self::DELIVERY_STATUS_C => '配達完了',  
         self::DELIVERY_STATUS_D => '再配達',      
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
