@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReservationrequest;
+use App\Http\Requests\Reservation\StoreReservationRequest;
 use App\Service\ReservationService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -28,7 +29,10 @@ class ReservationController extends Controller
     public function index(): View
     {
         $reservation = $this->reservationService->featchAllReservation(false);
-        return view('reservations.index', ['reservation' => $reservation]);
+
+        return view('reservations.index')->with([
+            'reservation' => $reservation
+        ]);
     }
 
     /**
@@ -36,9 +40,17 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('reservations.create');
+        [$customerId, $customerName, $customerAddress, $customerTel, $customerRemarks] = $this->reservationService->getCustomerInfomation($request);
+        
+        return view('reservations.create')->with([
+             'customerId'=> $customerId,
+             'customerName' => $customerName,
+             'customerAddress' => $customerAddress,
+             'customerTel' => $customerTel,
+             'customerRemarks' => $customerRemarks
+        ]);
     }
 
     /**
@@ -47,14 +59,15 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreReservationrequest $request): RedirectResponse
+    public function store(StoreReservationRequest $request): RedirectResponse
     {
-        DB::transaction(function() use($request) {
+        DB::transaction(function() use ($request) {
              $reservayion = $this->reservationService->storeReservation($request->getReservationParams());
              return $reservayion;
         });
 
-        return redirect()->route('reservation/index');
+        return redirect()
+            ->route('reservation/index');
     }
 
     /**
@@ -66,7 +79,10 @@ class ReservationController extends Controller
     public function edit(int $id): View
     {
         $getReservation = $this->reservationService->findReservation($id);
-        return view('reservations.edit', ['reservation' => $getReservation]);
+
+        return view('reservations.edit')->with([
+            'reservation' => $getReservation
+        ]);
     }
 
     /**
@@ -76,15 +92,16 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreReservationrequest $request, int $id): RedirectResponse
+    public function update(StoreReservationRequest $request, int $id): RedirectResponse
     {
         $getReservation = $this->reservationService->findReservation($id);
-        DB::transaction(function() use($request, $getReservation ) {
+        DB::transaction(function() use ($request, $getReservation ) {
             $reservation = $this->reservationService->updateReservation($request->getReservationParams(), $getReservation);
             return $reservation;
         });
 
-        return redirect()->route('reservation/index');
+        return redirect()
+            ->route('reservation/index');
     }
 
     /**
@@ -98,7 +115,8 @@ class ReservationController extends Controller
         $getReservation = $this->reservationService->findReservation($id);
         $this->reservationService->deletetReservation($getReservation);
 
-        return redirect()->route('reservation/index');
+        return redirect()
+            ->route('reservation/index');
     }
 
     /**

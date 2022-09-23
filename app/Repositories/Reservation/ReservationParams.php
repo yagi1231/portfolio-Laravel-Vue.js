@@ -12,6 +12,7 @@ class ReservationParams
    private string $order;
    private string $sumprice;
    private string $time;
+   private int $customer_id;
 
    public function __construct(
       string $name,
@@ -19,7 +20,8 @@ class ReservationParams
       string $tel,
       string $order,
       string $sumprice,
-      string $time
+      string $time,
+      int $customer_id
    )
    {
       $this->name = $name;
@@ -28,6 +30,7 @@ class ReservationParams
       $this->order = $order;
       $this->sumprice = $sumprice;
       $this->time = $time;
+      $this->customer_id = $customer_id;
    }
 
     public function toArray() 
@@ -38,8 +41,9 @@ class ReservationParams
             'tel' => $this->tel,
             'order' => $this->order,
             'sumprice' => $this->sumprice,
-            'user_id' => 1,
-            'time' => $this->time 
+            'staff_id' => Auth::user()->id,
+            'time' => $this->time,
+            'customer_id' => $this->customer_id,
         ];
     }
 

@@ -5,7 +5,7 @@ namespace App\Service;
 
 use App\Repositories\Reservation\ReservationParams;
 
-interface ReservationService 
+interface ReservationService
 {
      /**
      * 丸々
@@ -15,7 +15,7 @@ interface ReservationService
     /**
      * 
      */
-    public function findReservation(int $reservation_id);
+    public function findReservation(int $reservationId);
 
     /**
      * 
@@ -30,11 +30,16 @@ interface ReservationService
     /**
      * 
      */
-    public function deletetReservation($reservation);
+    public function deletetReservation($reservationId);
 
     /**
      * 削除した予約情報を復元させる
      */
     // public function restoreReservation($reservation): void;
+
+    /**
+     * customerからの情報を一つ一つの変数に格納する
+     */
+    public function getCustomerInfomation($reservation);
 }
 ?>

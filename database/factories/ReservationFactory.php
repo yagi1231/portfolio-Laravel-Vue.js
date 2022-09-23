@@ -14,8 +14,7 @@ class ReservationFactory extends Factory
      */
     public function definition()
     {
-        DB::table('reservations')->delete();
-        
+    
         $staff = [
             '青柳',
             '宍戸',
@@ -30,7 +29,7 @@ class ReservationFactory extends Factory
             '完了'
         ];
 
-        $user_id = [
+        $customer_id = [
             '1', '2', '3', '4', '5'
         ];
 
@@ -44,7 +43,8 @@ class ReservationFactory extends Factory
             'end_time' => $this->faker->date('Y-m-d H:i:s'),
             'delivery' => $this->faker->randomElement($staff),
             'status' => $this->faker->randomElement($status),
-            'user_id' => $this->faker->randomElement($user_id)
+            'staff_id' => $this->faker->randomElement($customer_id),
+            'customer_id' => $this->faker->randomElement($customer_id),
         ];
     }
 }
