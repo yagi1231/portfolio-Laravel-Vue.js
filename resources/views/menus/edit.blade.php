@@ -7,12 +7,6 @@
         <li>{{$error}}</li>
       </ul>
     @endforeach
-
-    <tr>
-        <th>スタッフ名</th>
-        <td>{{ $staffName }}</td>
-    </tr>
-
     <form method="post" action="{{ route('customer/update', ['id' => $customer->id]) }}">
         @csrf
         <table>

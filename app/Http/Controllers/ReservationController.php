@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Reservation\StoreReservationRequest;
+use App\Http\Requests\Search\SearchRequest;
 use App\Service\ReservationService;
+use App\Service\SeachService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,22 +15,25 @@ use Illuminate\View\View;
 class ReservationController extends Controller
 {
     private ReservationService $reservationService;
-
+    private SeachService $seachService;
 
     public function __construct(
-        ReservationService $reservationService
+        ReservationService $reservationService,
+        SeachService $seachService
     )
     {
         $this->reservationService = $reservationService;
+        $this->seachService = $seachService;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): View
+    public function index(SearchRequest $request): View
     {
-        $reservation = $this->reservationService->featchAllReservation(false);
+        $serach = $this->seachService->getSerachParam($request->getAggregateSearchParams()); 
+        $reservation = $this->reservationService->featchAllReservation(false, $serach->toArray());
 
         return view('reservations.index')->with([
             'reservation' => $reservation
@@ -78,10 +83,12 @@ class ReservationController extends Controller
      */
     public function edit(int $id): View
     {
-        $getReservation = $this->reservationService->findReservation($id);
+        $reservation = $this->reservationService->findReservation($id);
+        $staffName = $reservation->user->name;
 
         return view('reservations.edit')->with([
-            'reservation' => $getReservation
+            'reservation' => $reservation,
+            'staffName' => $staffName
         ]);
     }
 
@@ -125,9 +132,18 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function restore(int $id)　 
+    // public function restore(int $id): void
     // {
     //     $getReservation = $this->reservationService->findReservation($id);
     //     $this->reservationService->restoreReservation($getReservation);
     // }
+
+    public function daysum(Request $request)
+    {
+        $serachAggregate = $this->reservationService->getDaySumAndAvg($request->query());
+
+        return view('aggregate.daysum')->with([
+            'serachAggregate' => $serachAggregate
+        ]);
+    }
 }

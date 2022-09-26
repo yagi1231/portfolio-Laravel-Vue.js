@@ -3,21 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Customers\StoreCustomerRequest;
+use App\Http\Requests\Search\SearchRequest;
 use App\Service\CustomerService;
+use App\Service\SeachService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
     private CustomerService $customerService;
+    private SeachService $seachService;
 
     public function __construct(
-        CustomerService $customerService
+        CustomerService $customerService,
+        SeachService $seachService
     )
     {
         $this->customerService = $customerService;
+        $this->seachService = $seachService;
     }
 
     /**
@@ -25,9 +29,10 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): View
+    public function index(SearchRequest $request): View
     {
-        $customers = $this->customerService->featchAllCustomer(false);
+        $serach = $this->seachService->getSerachParam($request->getSearchParams()); 
+        $customers = $this->customerService->featchAllCustomer(false,  $serach->toArray());
         return view('customers.index')->with([
             'customers' => $customers
             ]
@@ -69,8 +74,11 @@ class CustomerController extends Controller
     public function show(int $id)
     {
         $customer = $this->customerService->findCustomer($id, true);
+        [$lastOrderDay , $orderCount] = $this->customerService->getOrderDayAndCount($customer, false);
         return view('customers.show')->with([
-            'customer' => $customer
+            'customer' => $customer,
+            'latOrderDay' => $lastOrderDay ,
+            'orderCount' => $orderCount
         ]);
     }
 
@@ -83,8 +91,11 @@ class CustomerController extends Controller
     public function edit(int $id)
     {
         $customer = $this->customerService->findCustomer($id, true);
+        $staffName = $customer->user->name;
+
         return view('customers.edit')->with([
-            'customer' => $customer
+            'customer' => $customer,
+            'staffName' => $staffName
         ]);
     }
 
@@ -115,7 +126,7 @@ class CustomerController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $customer = $this->customerService->findCustomer($id, true);
+        $customer = $this->customerService->findCustomer($id, true, ["reservations"]);
         $this->customerService->deletetCustomer($customer);
 
        return redirect()
@@ -130,7 +141,7 @@ class CustomerController extends Controller
      */
     public function restore(int $id): RedirectResponse
     {
-        $customer = $this->customerService->findCustomer($id, true);
+        $customer = $this->customerService->findCustomer($id, true, ["reservations"]);
         $this->customerService->restoreCustomer($customer);
 
         return redirect()

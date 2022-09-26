@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,5 +50,19 @@ Route::middleware('auth')->group(function(){
         Route::get('/delete/{id}', [ CustomerController::class, 'destroy'])->name('customer/delete');
         Route::get('/restore/{id}', [ CustomerController::class, 'restore'])->name('customer/restore');
       });
-});
 
+      Route::prefix('menus')->group(function(){
+        Route::get('/', [ MenuController::class, 'index'])->name('menu/index');
+        Route::get('/create', [  MenuController::class, 'create'])->name('menu/create');
+        Route::post('/store', [  MenuController::class, 'store'])->name('menu/store');
+        Route::get('/edit/{id}', [  MenuController::class, 'edit'])->name('menu/edit');
+        Route::get('/update/{id}', [  MenuController::class, 'update'])->name('menu/update');
+        Route::post('/update/{id}', [  MenuController::class, 'update'])->name('menu/update');
+        Route::get('/delete/{id}', [  MenuController::class, 'destroy'])->name('menu/delete');
+      });
+
+      Route::prefix('aggregate')->group(function() {
+        Route::get('/daysum', [ ReservationController::class, 'daysum'])->name('aggregate/daysum');
+        Route::post('/daysum', [ ReservationController::class, 'daysum'])->name('aggregate/daysum');
+      });
+});

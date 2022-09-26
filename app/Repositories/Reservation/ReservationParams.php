@@ -10,26 +10,35 @@ class ReservationParams
    private string $address;
    private string $tel;
    private string $order;
+   private string $status;
    private string $sumprice;
-   private string $time;
-   private int $customer_id;
+   private string $begin;
+   private string $end;
+   private ?string $remarks;
+   private ?int $customer_id;
 
    public function __construct(
       string $name,
       string $address,
       string $tel,
       string $order,
+      string $status,
       string $sumprice,
-      string $time,
-      int $customer_id
+      string $begin,
+      string $end,
+      ?string $remarks,
+      ?int $customer_id = null
    )
    {
       $this->name = $name;
       $this->address = $address;
       $this->tel = $tel;
       $this->order = $order;
+      $this->status= $status;
       $this->sumprice = $sumprice;
-      $this->time = $time;
+      $this->begin = $begin;
+      $this->end = $end;
+      $this->remarks = $remarks;
       $this->customer_id = $customer_id;
    }
 
@@ -40,10 +49,13 @@ class ReservationParams
             'address' => $this->address,
             'tel' => $this->tel,
             'order' => $this->order,
+            'status' => $this->status,
             'sumprice' => $this->sumprice,
             'staff_id' => Auth::user()->id,
-            'time' => $this->time,
-            'customer_id' => $this->customer_id,
+            'begin' => $this->begin,
+            'end' => $this->end,
+            'remarks' => $this->remarks,
+            'customer_id' => $this->customer_id
         ];
     }
 
