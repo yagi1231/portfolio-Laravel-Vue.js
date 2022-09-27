@@ -2,6 +2,12 @@
 
 @section('content')
     <h1><予約画面></h1>
+    <form method="get" action="{{ route('customer/index') }}"> 
+    <input type="text" name="name">
+    <input type="text" name="address">
+    <input type="text" name="tel">
+    <button>検索</button>
+</form>
     <table class="table">
 <thead>
     <tr>
@@ -22,6 +28,11 @@
     </tbody>
         @endforeach
     </table>
+
+    <CustomerIndex
+    :reservations='@json($customers)'
+    endpoint="{{  route('customer/index') }"
+    />
 
     {{ $customers->links() }}
 @endsection

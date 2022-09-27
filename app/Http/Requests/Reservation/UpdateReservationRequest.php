@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreReservationRequest extends FormRequest
+class UpdateReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +33,7 @@ class StoreReservationRequest extends FormRequest
             'tel' => ['required', 'string'],
             'order' => ['required', 'string', 'max:255'],
             'sumprice' => ['required', 'integer', 'between:0,999999'],
-            'begin' => ['required', 'date'],
+            'time' => ['required', 'date'],
             'status' => ['integer', Rule::in(Reservation::DELIVERY_STATUS_ALL)]
         ];
     }
@@ -47,8 +47,7 @@ class StoreReservationRequest extends FormRequest
             $this->input('order'),
             $this->input('status'),
             $this->input('sumprice'),
-            $this->input('begin'),
-            $this->input('end'),
+            $this->input('time'),
             $this->input('remarks'),
             $this->input('customer_id'),
         );

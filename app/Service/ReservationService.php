@@ -10,12 +10,12 @@ interface ReservationService
      /**
      * 丸々
      */
-    public function featchAllReservation(bool $withtranshed);
+    public function featchAllReservation(bool $withtranshed, $search);
 
     /**
      * 
      */
-    public function findReservation(int $reservationId);
+    public function findReservation(int $reservationId, array $with = []);
 
     /**
      * 
@@ -41,5 +41,10 @@ interface ReservationService
      * customerからの情報を一つ一つの変数に格納する
      */
     public function getCustomerInfomation($reservation);
+
+    /**
+     * 
+     */
+    public function getDaySumAndAvg($query);
 }
 ?>

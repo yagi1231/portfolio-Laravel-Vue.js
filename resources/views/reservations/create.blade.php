@@ -41,8 +41,13 @@
         </tr>
   
         <tr>
-            <th>時間</th>
-            <td><input type="date" name="time" value="{{ old('time') }}"></td>
+            <th>開始時刻</th>
+            <td><input type="date" name="begin" value="{{ old('begin') }}"></td>
+        </tr>
+
+        <tr>
+            <th>終了</th>
+            <td><input type="date" name="end" value="{{ old('end') }}"></td>
         </tr>
 
         <tr>

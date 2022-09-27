@@ -14,6 +14,11 @@ class Customer extends Model
 
     public function reservations()
     {
-      return $this->hasMany(Reservation::class);
+      return $this->hasMany(reservation::class);
+    }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class, 'staff_id');
     }
 }

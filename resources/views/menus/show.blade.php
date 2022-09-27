@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>編集</h1>
-    @foreach ($errors->all() as $error)
-      <ul>
-        <li>{{$error}}</li>
-      </ul>
-    @endforeach
+    <h1>詳細</h1>
 
-    <tr>
-        <th>スタッフ名</th>
-        <td>{{ $staffName }}</td>
-    </tr>
-
-    <form method="post" action="{{ route('customer/update', ['id' => $customer->id]) }}">
+    <form method="post" action="{{ route('reservation/create') }}">
         @csrf
         <table>
           <tr>
@@ -34,6 +24,10 @@
           <tr>
             <th>備考欄</th>
             <td><input type="text" name="remarks" value="{{ $customer['emarks'] }}"></td>
+          </tr>
+
+          <tr>
+            <td><input type="hidden" name="id" value="{{ $customer['id'] }}"></td>
           </tr>
         </table>
 

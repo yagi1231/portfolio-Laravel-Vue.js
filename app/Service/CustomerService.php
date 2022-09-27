@@ -3,14 +3,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Models\Customer;
 use App\Repositories\Customer\CustomerParams;
+use Illuminate\Database\Eloquent\Collection;
 
 interface CustomerService 
 {
      /**
      * 丸々
      */
-    public function featchAllCustomer(bool $withtranshed);
+    public function featchAllCustomer(bool $withtranshed, $search);
 
     /**
      * 
@@ -36,5 +38,10 @@ interface CustomerService
      * 削除したお客様情報を復元させる
      */
     public function restoreCustomer($customer): void;
+
+        /**
+     * 削除したお客様情報を復元させる
+     */
+    public function getOrderDayAndCount($customer, bool $withtranshed): array;
 }
 ?>

@@ -24,7 +24,8 @@ class CreateReservationsTable extends Migration
             $table->integer('price')->nullable()->comment('金額');
             $table->integer('sumprice')->comment('合計金額');
             $table->string('delivery')->nullable()->comment('配達員名');
-            $table->string('time')->comment('予定配達時間');
+            $table->string('begin')->comment('予定配達時間');
+            $table->string('start_time')->nullable()->comment('配達出発時間');
             $table->string('end_time')->nullable()->comment('配達完了時間');
             $table->string('status')->default('準備中')->comment('配達状況');
             $table->string('remarks')->nullable()->comment('備考欄');

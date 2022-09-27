@@ -3,6 +3,13 @@
 @section('content')
     <h1>詳細</h1>
 
+    <tr>
+        <th>注文回数</th>
+        <td>{{ $orderCount }}</td>
+        <th>最終注文日</th>
+        <td>{{ $latOrderDay }}</td>
+    </tr> 
+
     <form method="post" action="{{ route('reservation/create') }}">
         @csrf
         <table>
